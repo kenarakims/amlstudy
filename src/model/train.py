@@ -1,13 +1,6 @@
 # Import libraries
-try:
-    import mlflow
-except ImportError:
-    print("mlflow is not installed. Install it with pip install mlflow")
-
-try:
-    from sklearn.model_selection import train_test_split
-except ImportError:
-    print("sklearn is not installed. Install it with pip install -U scikit-learn")
+import mlflow
+from sklearn.model_selection import train_test_split
 
 import argparse
 import glob
@@ -15,16 +8,14 @@ import os
 
 import pandas as pd
 
-try:
-    from sklearn.linear_model import LogisticRegression
-except ImportError:
-    print("sklearn is not installed. Install it with pip install -U scikit-learn")
+from sklearn.linear_model import LogisticRegression
 
 
 # define functions
 def main(args):
     # TO DO: enable autologging
     mlflow.autolog()
+
 
     # read data
     df = get_csvs_df(args.training_data)
@@ -33,7 +24,7 @@ def main(args):
     X_train, X_test, y_train, y_test = split_data(df)
     
     # train model
-    train_model(args.reg_rate, X_train, y_train)
+    train_model(args.reg_rate, X_train, X_test, y_train, y_test)
 
 
 def get_csvs_df(path):
@@ -49,7 +40,7 @@ def get_csvs_df(path):
 def split_data(df):
     return train_test_split(df)
 
-def train_model(reg_rate, X_train, y_train):
+def train_model(reg_rate, X_train, X_test, y_train, y_test):
     # train model
     LogisticRegression(C=1/reg_rate, solver="liblinear").fit(X_train, y_train)
 
