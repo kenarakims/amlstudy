@@ -1,6 +1,6 @@
 # Import libraries
 import mlflow
-
+from sklearn.model_selection import train_test_split
 
 import argparse
 import glob
@@ -22,7 +22,7 @@ def main(args):
 
     # split data
     # X_train, X_test, y_train, y_test = split_data(df)
-    train_test_split_data(df)
+    split_data(df)
 
     # train model
     train_model(args.reg_rate, X_train, X_test, y_train, y_test)
@@ -38,8 +38,8 @@ def get_csvs_df(path):
 
 
 # TO DO: add function to split data
-def train_test_split_data(df):
-    X_train, X_test, y_train, y_test = split_data(df)
+def split_data(df):
+    X_train, X_test, y_train, y_test = train_test_split(df)
 
 def train_model(reg_rate, X_train, X_test, y_train, y_test):
     # train model
